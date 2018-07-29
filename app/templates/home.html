@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="{{ url_for('static', filename='googlemaps.js') }}"></script>
+
+<div class="row" style="padding-top: 30px;">
+    <div class="col-1"></div>
+    <div class="col-5">
+        <div id="map" style="border-radius: 6px;">
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC94G_D29MnwKOepVNsTOqfu99PYtlcuAU&callback=initMap"></script>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="jumbotron" id="next-to-map">
+            <h1 id="current-topic-title"></h1>
+            <hr>
+            <form id="general-input-form">
+                <button type="submit" disabled style="display: none"></button>
+            </form>
+        </div>
+    </div>
+    <div class="col-1"></div>
+</div>
+
+{% endblock %}
