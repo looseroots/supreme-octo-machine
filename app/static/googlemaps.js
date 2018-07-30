@@ -49,11 +49,9 @@ function initMap() {
     ending_marker = new google.maps.Marker({
         map: map
     });
-    console.log('inited map');
 }
 
 function updateMapSize() {
-    console.log('updating map size')
     $('div#map').css('height', $('div#next-to-map').css('height'));
     $('div#map').css('width', $('div#next-to-map').css('width'));
 }
@@ -78,22 +76,12 @@ function removeInputField(id) {
     $('div#input-group' + id).remove();
 }
 
-function addEventField(parent="form#general-input-form") {
-    num_events++;
-    addInputField(parent, num_events);
-}
-
-function removeEventField(parent="form#general-input-form") {
-    removeInputField(parent, num_events);
-    num_events--;
-}
-
 function getEventAsCard(event) {
     // currently an event is just a name string but this ought to
     // be made more interesting later
     var outermost = $('<div>', {
         class: "card",
-        style: "width: 15rem;"
+        style: "width: auto;"
     });
     
     var innermost = $('<div>', {
@@ -125,15 +113,21 @@ function loadEventForm() {
         function(data) {
             if (data['events']) {
                 var available_events = data['events'];
-                for (var key in available_events) {
-                    var current_event = getEventAsCard(available_events[key]);
-                    current_event.appendTo('#next-to-map');
-                    console.log('appended', current_event);
+                var deck = $('<div>', {class: 'card-deck', style: 'padding-bottom: 5px;'});
+                console.log(available_events);
+                for (var i=0; i<available_events.length; i++) {
+                    var as_card = getEventAsCard(available_events[i]);
+                    deck.append(as_card);
+
+                    if ((i+1)%3==0) {
+                        $('#next-to-map').append(deck);
+                        deck = $('<div>', {class: 'card-deck', style: 'padding-bottom: 5px;'});
+                    }
                 }
+
                 updateMapSize();
             } else {
                 available_events = null;
-                console.log('got null response');
             }
         }
     );
