@@ -40,7 +40,17 @@ function updateBounds() {
 }
 
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {zoom: 4, center: {lat: 35, lng: 240}});
+    map = new google.maps.Map(document.getElementById('map'), 
+        {
+            zoom: 4, 
+            center: {
+                lat: 35,
+                lng: 240
+            },
+            gestureHandling: 'none',
+            zoomControl: false,
+        }
+    );
 
     geocoder = new google.maps.Geocoder();
     starting_marker = new google.maps.Marker({
@@ -90,13 +100,13 @@ function getEventAsCard(event) {
 
     var event_title = $('<h5>', {
         class: 'card-title',
-        text: event,
+        text: event['name'],
     });
     event_title.appendTo(innermost);
 
     var event_text = $('<p>', {
         class: 'card-text',
-        text: event,
+        text: event['desc'],
     });
     event_text.appendTo(innermost);
 
@@ -114,7 +124,6 @@ function loadEventForm() {
             if (data['events']) {
                 var available_events = data['events'];
                 var deck = $('<div>', {class: 'card-deck', style: 'padding-bottom: 5px;'});
-                console.log(available_events);
                 for (var i=0; i<available_events.length; i++) {
                     var as_card = getEventAsCard(available_events[i]);
                     deck.append(as_card);
